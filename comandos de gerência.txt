@@ -1,0 +1,21 @@
+enable secret class
+service password-encryption
+banner modt $
+*****************************
+****ACESSO NAO AUTORIZADO****
+*****************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchonous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh

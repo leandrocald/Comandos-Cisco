@@ -1,0 +1,308 @@
+
+Coamndos --> S1 --> Senhas: Console e linhas vty: nave / Modo Privilegiado: nave
+
+
+ena
+conf t
+hostname S1
+end
+conf t
+vlan 10
+name Admin
+vlan 20 
+name Table 
+vlan 30
+name Biblioteca
+vlan 40
+name Totens
+vlan 50
+name Galerias
+vlan 60 
+name Impressora
+vlan 70
+name Público
+vlan 80 
+name Coodenacao
+vlan 90
+name multimidia
+vlan 99
+name gerenciamento
+end
+CONF T
+enable secret nave
+line cons 0 
+password nave
+login
+line vty 0 15
+password nave
+login
+exit
+service password-encryption
+banner motd #Warning : Only authorized personnel.#
+end
+ena
+conf t
+int range f0/1-16
+switchport mode access
+switchport access vlan 20
+end
+ena
+conf t
+int range f0/17-24
+switchport mode access
+switchport access vlan 30
+end
+ena
+conf t
+int g0/1
+switchport mode trunk
+switchport trunk native vlan 99
+end
+ena
+conf t
+int g0/1
+description S1 --> ROUTER CENTRAL
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99
+switchport trunk ALLOWED VLAN remove 1
+end
+write
+
+
+
+COMANDOS NO S2 --> Senhas: Console e linhas vty: nave / Modo Privilegiado: nave
+
+ena
+conf t
+hostname S2
+end
+ena
+CONF T
+enable secret nave
+line cons 0 
+password nave
+login
+line vty 0 15
+password nave
+login
+exit
+service password-encryption
+banner motd #Warning : Only authorized personnel.#
+end
+ena
+conf t
+vlan 10
+name Admin
+vlan 20 
+name Table 
+vlan 30
+name Biblioteca
+vlan 40
+name Totens
+vlan 50
+name Galerias
+vlan 60 
+name Impressora
+vlan 70
+name Publico
+vlan 80 
+name Coodenacao
+vlan 90
+name Multimidia
+vlan 99
+name Gerenciamento
+end
+ena
+conf t
+int f0/1
+switchport mode access
+switchport access vlan 80
+end
+ena
+conf t
+int f0/2
+switchport mode access
+switchport access vlan 90
+end
+ena
+conf t
+int f0/8
+switchport mode access
+switchport access vlan 70
+end
+ena
+conf t
+int f0/3
+switchport mode access
+switchport access vlan 60
+end
+ena
+conf t
+int range f0/9-14
+switchport mode access
+switchport access vlan 50
+end
+ena
+conf t
+int range f0/15-18
+switchport mode access
+switchport access vlan 40
+end
+ena
+conf t
+int range f0/4-7
+switchport mode access
+switchport access vlan 10
+end
+ena
+conf t
+int g0/1
+switchport mode trunk
+switchport trunk native vlan 99
+end
+ena
+conf t
+int vlan 99
+ip add 192.168.99.2 255.255.255.0
+end
+ena
+conf t
+int range f0/19-24, g0/2
+shut
+end
+ena
+conf t
+int g0/1
+description S2 --> ROUTER CENTRAL
+switchport mode trunk
+switchport trunk native vlan 99
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80,90,99
+switchport trunk ALLOWED VLAN remove 1
+end
+ena
+conf t
+ip default-gateway 192.168.200.1
+exit
+write
+
+Configuração Router central --> Senhas: Console e linhas vty: nave / Modo Privilegiado: nave 
+
+
+ena
+conf t
+hostname CENTRAL
+int g0/0.20
+encapsulation dot1q 20
+ip address 192.168.20.1 255.255.255.0
+exit
+int g0/0.30
+encapsulation dot1q 30
+ip address 192.168.30.1 255.255.255.0
+end
+ena
+conf t
+int g0/1.10
+encapsulation dot1q 10
+ip address 192.168.10.1 255.255.255.0
+exit
+int g0/1.40
+encapsulation dot1q 40
+ip address 192.168.40.1 255.255.255.0
+exit
+int g0/1.50
+encapsulation dot1q 50
+ip address 192.168.50.1 255.255.255.0
+exit
+int g0/1.60
+encapsulation dot1q 60
+ip address 192.168.60.1 255.255.255.0
+exit
+int g0/1.70
+encapsulation dot1q 70
+ip address 192.168.70.1 255.255.255.0
+exit
+int g0/1.80
+encapsulation dot1q 80
+ip address 192.168.80.1 255.255.255.0
+exit
+int g0/1.90
+encapsulation dot1q 90
+ip address 192.168.90.1 255.255.255.0
+exit
+int g0/0
+192.168.100.1 255.255.255.252
+no shut
+exit
+int g0/1
+192.168.101.1 255.255.255.252
+no shut
+end
+ena
+CONF T
+enable secret nave
+line cons 0 
+password nave
+login
+line vty 0 15
+password nave
+login
+exit
+service password-encryption
+banner motd #Warning : Only authorized personnel.#
+end
+ena
+conf t
+ip dhcp pool redevlan10
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1
+end
+ena
+conf t
+ip dhcp pool redevlan20
+network 192.168.20.0 255.255.255.0
+default-router 192.168.20.1
+end
+ena
+conf t
+ip dhcp pool redevlan30
+network 192.168.30.0 255.255.255.0
+default-router 192.168.30.1
+end
+ena
+conf t
+ip dhcp pool redevlan40
+network 192.168.40.0 255.255.255.0
+default-router 192.168.40.1
+end
+ena
+conf t
+ip dhcp pool redevlan50
+network 192.168.50.0 255.255.255.0
+default-router 192.168.50.1
+end
+ena
+conf t
+ip dhcp pool redevlan60
+network 192.168.60.0 255.255.255.0
+default-router 192.168.60.1
+end
+ena
+conf t
+ip dhcp pool redevlan70
+network 192.168.70.0 255.255.255.0
+default-router 192.168.70.1
+end
+ena
+conf t
+ip dhcp pool redevlan80
+network 192.168.80.0 255.255.255.0
+default-router 192.168.80.1
+end
+ena
+conf t
+ip dhcp pool redevlan90
+network 192.168.90.0 255.255.255.0
+default-router 192.168.90.1
+end
+write

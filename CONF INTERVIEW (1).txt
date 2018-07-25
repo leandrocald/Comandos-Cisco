@@ -1,0 +1,504 @@
+##################################################
+######                                      ######   
+#####                   SW1                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW1
+Interface vlan 1
+ip address 172.16.1.250 255.255.255.0
+exit
+ip default-gateway 172.16.1.254
+END
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW1 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+wr
+
+
+##################################################
+######                                      ######   
+#####                   SW2                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW2
+Interface vlan 1
+ip address 172.16.2.250 255.255.255.0
+exit
+ip default-gateway 172.16.2.254
+END
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW2 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+wr
+
+
+##################################################
+######                                      ######   
+#####                   SW3                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW3
+Interface vlan 1
+ip address 172.16.3.250 255.255.255.0
+exit
+ip default-gateway 172.16.3.254
+END
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW3 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+wr
+
+
+##################################################
+######                                      ######   
+#####                   SW4                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW4
+Interface vlan 1
+ip address 64.100.100.250 255.255.255.0
+exit
+ip default-gateway 64.100.100.254
+END
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW4 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+wr
+
+
+
+##################################################
+######                                      ######   
+#####                   R1                   #####
+######                                      ######
+##################################################
+
+
+
+
+ena
+conf t
+enable secret nave
+hostname R1
+end
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+yes
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchronous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh
+end
+EN
+CONF T
+INT S0/0/0
+IP ADD 10.1.12.1 255.255.255.252
+NO SHUT
+EXIT
+INT S0/0/1
+IP ADD 10.1.13.1 255.255.255.0
+NO SHUT
+EXIT
+INT F0/0
+IP ADD 172.16.1.254 255.255.255.0
+NO SHUT
+END
+ENA
+CONF T
+ROUTER OSPF 1
+ROUTER-ID 1.1.1.1
+NETWORK 10.1.12.0 0.0.0.3 AREA 0
+NETWORK 10.1.13.0 0.0.0.255 AREA 0
+NETWORK 172.16.1.0 0.0.0.255 AREA 0
+PASSIVE-INTERFACE F0/0
+end
+en
+conf t
+access-list 102 permit tcp 172.16.2.0 0.0.0.255 172.16.1.0 0.0.0.255 eq www
+access-list 102 permit tcp any any eq 22
+access-list 102 permit udp any any eq 22
+access-list 102 permit udp any any eq domain
+access-list 102 permit udp any eq domain any
+access-list 102 permit tcp any any eq 53
+int f0/0
+ip access-group 102 out
+end
+ena
+conf t
+ip dhcp excluded-address 172.16.1.1 172.16.1.9
+end
+ena
+conf t
+ip dhcp pool REDER1
+network 172.16.1.0 255.255.255.0
+default-router 172.16.1.254
+dns-server 172.16.1.1
+end
+
+
+
+WR
+
+
+
+##################################################
+######                                      ######   
+#####                   R2                   #####
+######                                      ######
+##################################################
+
+
+
+
+ena
+conf t
+enable secret nave
+hostname R2
+end
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+yes
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchronous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh
+end
+EN
+CONF T
+INT S0/0/0
+IP ADD 10.1.12.2 255.255.255.252
+ip nat inside
+NO SHUT
+EXIT
+INT S0/0/1
+IP ADD 10.1.23.1 255.255.255.252
+ip nat inside
+NO SHUT
+EXIT
+INT F0/0
+IP ADD 172.16.2.254 255.255.255.0
+ip nat inside
+NO SHUT
+EXIT
+INT F0/1
+IP ADD 209.165.200.225 255.255.255.252
+ip nat OUTSIDE
+NO SHUT
+END
+EN
+CONF T
+ip nat pool ovrld 209.165.200.225 209.165.200.225 netmask 255.255.255.252
+ACCESS-LIST 1 PERMIT 172.16.0.0 0.0.3.255 
+IP NAT INSIDE SOURCE LIST 1 pool ovrld OVERLOAD
+end
+ENA
+CONF T
+ROUTER OSPF 2
+ROUTER-ID 2.2.2.2
+NETWORK 10.1.12.0 0.0.0.3 AREA 0
+NETWORK 10.1.23.0 0.0.0.3 AREA 0
+NETWORK 209.165.200.224 0.0.0.3 AREA 0
+NETWORK 172.16.2.0 0.0.0.255 AREA 0
+PASSIVE-INTERFACE F0/0
+PASSIVE-INTERFACE F0/1
+end
+ena
+conf t
+ip dhcp excluded-address 172.16.2.1 172.16.2.9
+end
+ena
+conf t
+ip dhcp pool REDER2
+network 172.16.2.0 255.255.255.0
+default-router 172.16.2.254
+dns-server 172.16.1.1
+end
+EN
+CONF T
+IP ROUTE 0.0.0.0 0.0.0.0 F0/1
+END
+WR
+
+
+
+##################################################
+######                                      ######   
+#####                   R3                   #####
+######                                      ######
+##################################################
+
+
+
+
+ena
+conf t
+enable secret nave
+hostname R3
+end
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+yes
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchronous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh
+end
+EN
+CONF T
+INT S0/0/0
+IP ADD 10.1.13.2 255.255.255.0
+NO SHUT
+EXIT
+INT S0/0/1
+IP ADD 10.1.23.2 255.255.255.252
+NO SHUT
+EXIT
+INT F0/0
+IP ADD 172.16.3.254 255.255.255.0
+NO SHUT
+END
+ENA
+CONF T
+ROUTER OSPF 3
+ROUTER-ID 3.3.3.3
+NETWORK 10.1.13.0 0.0.0.255 AREA 0
+NETWORK 10.1.23.0 0.0.0.3 AREA 0
+NETWORK 172.16.3.0 0.0.0.255 AREA 0
+PASSIVE-INTERFACE F0/0
+end
+ena
+conf t
+ip dhcp excluded-address 172.16.3.1 172.16.3.9
+end
+ena
+conf t
+ip dhcp pool REDER3
+network 172.16.3.0 255.255.255.0
+default-router 172.16.3.254
+dns-server 172.16.1.1
+end
+WR
+
+
+
+
+##################################################
+######                                      ######   
+#####                   ISP                  #####
+######                                      ######
+##################################################
+
+
+
+
+ena
+conf t
+enable secret nave
+hostname ISP
+end
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+yes
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchronous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh
+end
+EN
+CONF T
+INT F0/0
+IP ADD 64.100.100.254 255.255.255.0
+NO SHUT
+INT F0/1
+IP ADD 209.165.200.226 255.255.255.252
+NO SHUT
+END
+ena
+conf t
+ip dhcp excluded-address 64.100.100.1 64.100.100.9
+end
+ena
+conf t
+ip dhcp pool REDEISP
+network 64.100.100.0 255.255.255.0
+default-router 64.100.100.254
+dns-server 172.16.1.1
+end
+EN
+CONF T
+IP ROUTE 0.0.0.0 0.0.0.0 F0/1
+END
+WR
+
+
+
+
+

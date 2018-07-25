@@ -1,0 +1,31 @@
+enable
+configure terminal
+enable secret class
+line console 0
+password cisco
+login
+exit
+line vty 0 4
+password cisco
+login
+exit
+line aux 0
+password cisco
+login
+exit
+service password-encryption
+banner motd "ATENCAO; SOMENTE PESSOAL AUTORIZADO POR LC CORPORATION CCar #
+ena
+conf t
+int range f0/1-24
+switchport port-security violation restrict
+switchport mode access
+switchport port-security
+switchport port-security maximum 1
+switchport port-security mac-address sticky
+int range f0/3-24
+shut
+exit
+int range g0/1-2
+shut
+end

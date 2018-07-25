@@ -1,0 +1,876 @@
+##################################################
+######                                      ######   
+#####                  R1                    #####
+######                                      ######
+##################################################
+
+
+ena
+conf t
+enable secret nave
+hostname R1
+end
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+yes
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchronous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh
+end
+EN
+CONF T
+INT G0/1.10
+EN DO 10
+IP ADD 192.168.10.252 255.255.255.0
+standby 1 ip 192.168.10.254
+standby 1 priority 200
+standby 1 preempt
+EXI
+INT G0/1.20
+EN DO 20
+IP ADD 192.168.20.252 255.255.255.0
+standby 2 ip 192.168.20.254
+standby 2 priority 200
+standby 2 preempt
+EXI
+INT G0/1.30
+EN DO 30
+IP ADD 192.168.30.252 255.255.255.0
+standby 3 ip 192.168.30.254
+standby 3 priority 200
+standby 3 preempt
+EXI
+INT G0/1.40
+EN DO 40
+IP ADD 192.168.40.252 255.255.255.0
+standby 4 ip 192.168.40.254
+standby 4 priority 150
+standby 4 preempt
+EXI
+INT G0/1.50
+EN DO 50
+IP ADD 192.168.50.252 255.255.255.0
+standby 5 ip 192.168.50.254
+standby 5 priority 150
+standby 5 preempt
+EXI
+INT G0/1.60
+EN DO 60
+IP ADD 192.168.60.252 255.255.255.0
+standby 6 ip 192.168.60.254
+standby 6 priority 150
+standby 6 preempt
+EXI
+INT G0/1.90
+EN DO 90
+IP ADD 192.168.90.252 255.255.255.0
+standby 7 ip 192.168.90.254
+standby 7 priority 200
+standby 7 preempt
+EXI
+INT G0/1
+NO SHU
+END
+WR
+
+
+
+
+
+
+##################################################
+######                                      ######   
+#####                  R2                    #####
+######                                      ######
+##################################################
+
+
+ena
+conf t
+enable secret nave
+hostname R2
+end
+ena
+conf t
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+ip domain name cisco.com
+crypto key generate rsa
+yes
+1024
+username aluno secret cisco
+line console 0
+login local
+logging synchronous
+exec-timeout 5 0
+line vty 0 15
+login local
+logging synchronous
+exec-timeout 5 0
+transport input ssh
+end
+EN
+CONF T
+INT G0/1.10
+EN DO 10
+IP ADD 192.168.10.253 255.255.255.0
+standby 1 ip 192.168.10.254
+standby 1 priority 150
+standby 1 preempt
+EXI
+INT G0/1.20
+EN DO 20
+IP ADD 192.168.20.253 255.255.255.0
+standby 2 ip 192.168.20.254
+standby 2 priority 150
+standby 2 preempt
+EXI
+INT G0/1.30
+EN DO 30
+IP ADD 192.168.30.253 255.255.255.0
+standby 3 ip 192.168.30.254
+standby 3 priority 150
+standby 3 preempt
+EXI
+INT G0/1.40
+EN DO 40
+IP ADD 192.168.40.253 255.255.255.0
+standby 4 ip 192.168.40.254
+standby 4 priority 200
+standby 4 preempt
+EXI
+INT G0/1.50
+EN DO 50
+IP ADD 192.168.50.253 255.255.255.0
+standby 5 ip 192.168.50.254
+standby 5 priority 200
+standby 5 preempt
+EXI
+INT G0/1.60
+EN DO 60
+IP ADD 192.168.60.253 255.255.255.0
+standby 6 ip 192.168.60.254
+standby 6 priority 200
+standby 6 preempt
+EXI
+INT G0/1.90
+EN DO 90
+IP ADD 192.168.90.253 255.255.255.0
+standby 7 ip 192.168.90.254
+standby 7 priority 150
+standby 7 preempt
+EXI
+INT G0/1
+NO SHU
+END
+WR
+
+
+
+
+##################################################
+######                                      ######   
+#####                  SW1                   #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW1
+Interface vlan 90
+ip address 192.168.99.1 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW1 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT RANGE F0/1-12
+SW TRU EN DO
+SW MO TRU
+SW TR ALL VLA 10,20,30,40,50,60,90
+SW TR NA VLA 90
+EXIT
+INT RANG F0/1-4
+SW TRU EN DO
+SW MO TRU
+SW TR ALL VLA 10,20,30,40,50,60,90
+SW TR NA VLA 90
+channel-group 1 mode active
+EXIT
+INT PORT-CHANNEL 1 
+SW MO TRUN
+EXI
+INT RANGE F0/13-24,G0/2
+SW MODE ACC
+SHUT
+EXI
+SPAN VLA 10,20,30,90 PRI 0
+SPAN VLA 40,50,60 PRI 4096
+END
+wr
+
+
+
+##################################################
+######                                      ######   
+#####                  SW2                   #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW2
+Interface vlan 90
+ip address 192.168.99.2 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW2 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT RANGE F0/1-12
+SW TRU EN DO
+SW MO TRU
+SW TR ALL VLA 10,20,30,40,50,60,90
+SW TR NA VLA 90
+EXIT
+INT RANG F0/1-4
+SW TRU EN DO
+SW MO TRU
+SW TR ALL VLA 10,20,30,40,50,60,90
+SW TR NA VLA 90
+channel-group 1 mode PASSIVE
+EXIT
+INT PORT-CHANNEL 1 
+SW MO TRUN
+EXI
+INT RANGE F0/13-24,G0/2
+SW MODE ACC
+SHUT
+EXI
+SPAN VLA 10,20,30,90 PRI 4096
+SPAN VLA 40,50,60 PRI 0
+END
+wr
+
+################################################
+######                                      ######   
+#####                   SW3                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW3
+Interface vlan 90
+ip address 192.168.99.3 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW3 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 10
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 30
+EXIT
+INT RANGE F0/5,F0/9
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+##################################################
+######                                      ######   
+#####                   SW4                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW4
+Interface vlan 90
+ip address 192.168.99.4 255.255.255.0
+exit
+ip default-gateway 192.168.90.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW4 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 10
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 20
+EXIT
+INT RANGE F0/6,F0/10
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+##################################################
+######                                      ######   
+#####                   SW5                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW3
+Interface vlan 90
+ip address 192.168.99.5 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW5 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 40
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 30
+EXIT
+INT RANGE F0/7,F0/11
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+
+##################################################
+######                                      ######   
+#####                   SW6                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW6
+Interface vlan 90
+ip address 192.168.99.6 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW6 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 10
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 40
+EXIT
+INT RANGE F0/8,F0/12
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+##################################################
+######                                      ######   
+#####                   SW7                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW7
+Interface vlan 90
+ip address 192.168.99.7 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW7 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 50
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 10
+EXIT
+INT RANGE F0/5,F0/9
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+
+##################################################
+######                                      ######   
+#####                   SW8                  #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW8
+Interface vlan 90
+ip address 192.168.99.8 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW8 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 20
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 40
+EXIT
+INT RANGE F0/6,F0/10
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+
+##################################################
+######                                      ######   
+#####                   SW9                 #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW7
+Interface vlan 90
+ip address 192.168.99.9 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW9 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 10
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 30
+EXIT
+INT RANGE F0/7,F0/11
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+
+##################################################
+######                                      ######   
+#####                   SW10                 #####
+######                                      ######
+##################################################
+
+
+en
+conf t
+hostname SW7
+Interface vlan 90
+ip address 192.168.99.10 255.255.255.0
+exit
+ip default-gateway 192.168.99.254
+END
+ena
+conf t
+VLAN 10
+VLAN 20
+VLAN 30
+VLAN 40
+VLAN 50
+VLAN 60
+VLAN 90
+EXI
+enable secret class
+service password-encryption
+banner motd $
+*********************************************************************************
+****ACESSO NAO AUTORIZADO * DUVIDAS LCC CORPORATION CCAr *** Tel.: 99239-5357****
+*********************************************************************************
+$
+no ip domain lookup
+END
+ena
+conf t
+ip domain-name leocald.cisco.com
+username SW8 password nave
+crypto key generate rsa
+yes
+1024
+line vty 0 15
+transport input ssh
+login local
+exit
+ip ssh version 2
+end
+EN
+CONF T
+INT F0/1
+SW MODE ACC
+SW ACC VLAN 60
+EXIT
+INT F0/2
+SW MODE ACC
+SW ACC VLAN 10
+EXIT
+INT RANGE F0/8,F0/12
+SW MODE TRUNK
+SW TRUNK ALL VLA 10,20,30,40,50,60,90
+SW TRUNK NAT VLA 90
+end
+wr
+
+
+
+

@@ -1,0 +1,85 @@
+Show ip interfaces brief
+show ip route
+show running-config
+
+para ipv6
+
+show ipv6 interface brief
+show ipv6 int g0/0
+show route ipv6
+show ipv6 routers
+
+
+Mais detalhadas:
+
+show interfaces
+show ip interfaces
+
+
+configurar interface com Ipv6 global unicast 
+
+int g0/0
+description Link to Lan 1
+ipv6 address 2001:db8:acad:1::1/64
+no shut
+exit
+
+
+configurar interface Loopback
+
+int loopback 
+ip address 10.0.0.0 255.255.255.0
+exit
+
+
+Comandos terminal length number para
+especificar linhas e valores a serem exibidos.
+
+Pode ser usado "| section" ou | exclude ou | include
+
+ex:
+
+
+show ip interface brief | exclude unassigmed
+
+
+show ip interface brief | include up
+
+
+
+Comandos importantes;
+
+
+Ctrl+P ou seta para baixo recupera comandos
+
+Ctrol+N ou seta ara cima volta aos comandos mais recentes
+
+Show history - captura os ultimos 10 comandos digitados
+
+terminal history size para aumentar ou diminuir  o buffer
+
+
+
+
+
+Comandos SSh
+
+ena
+conf t
+
+ip domain-name cisco.com
+crypto key generate rsa
+1024
+ip ssh version 2
+line vty 0 15
+transport input ssh
+login local
+exit
+
+
+
+
+
+
+
+
