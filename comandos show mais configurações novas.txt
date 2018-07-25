@@ -1,0 +1,112 @@
+Show ip interfaces brief
+show ip route
+show running-config
+
+para ipv6
+
+show ipv6 interface brief
+show ipv6 int g0/0
+show route ipv6
+show ipv6 routers
+
+
+Mais detalhadas:
+
+show interfaces
+show ip interfaces
+
+
+configurar interface com Ipv6 global unicast 
+
+int g0/0
+description Link to Lan 1
+ipv6 address 2001:db8:acad:1::1/64
+no shut
+exit
+
+
+configurar interface Loopback
+
+int loopback X
+ip address 10.0.0.0 255.255.255.0
+exit
+
+
+Comandos terminal length number para
+especificar linhas e valores a serem exibidos.
+
+Pode ser usado "| section" ou | exclude ou | include
+
+ex:
+
+
+show ip interface brief | exclude unassigmed
+
+
+show ip interface brief | include up
+
+
+
+Comandos importantes;
+
+
+Ctrl+P ou seta para baixo recupera comandos
+
+Ctrol+N ou seta ara cima volta aos comandos mais recentes
+
+Show history - captura os ultimos 10 comandos digitados
+
+terminal history size para aumentar ou diminuir  o buffer
+
+
+
+
+
+cOMANDO PARA VERIFICAR PING NO ROUTER
+
+DEBUG IP PACKET
+
+
+
+
+configuração do roteador 
+
+no ip domain-loopkup (atribuir ao roteador para não pesquisar nome de host quando digitar algo errado)
+
+
+ena
+conf t
+hostname R1
+no ip domain-loopkup
+security passwords min-length 10 (atribuir nº de tentativas)
+enable secret cisco12345
+line con 0
+password ciscoconpass
+exc-timeout 5 0 (tempo de tentativa)
+login
+logging syncronous (sincroniza o debug e a saída do software cisco ios e impede que essas 
+mensagens interropam no teclado)
+exit
+
+
+
+
+Configure o relógio do roteador
+
+
+clock set 17:00 27 Jan 2016
+
+
+configurar para acessar SSH
+
+ena
+conf t
+ip domain-name ccna-lab.com
+username admin privilege 15 secret nave
+line vty 0 4
+transport input ssh
+login local
+exit
+crypto key generate rsa
+1024
+exit
